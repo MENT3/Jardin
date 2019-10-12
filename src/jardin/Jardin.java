@@ -1,6 +1,5 @@
 package jardin;
-import java.lang.reflect.Array;
-import java.util.Arrays;
+
 import java.util.HashMap;
 import java.util.Scanner;
 
@@ -99,7 +98,10 @@ public class Jardin {
 		case 4:
 			System.exit(-1);
 			break;
-			
+		default:
+			System.out.println("\n- Aucun numéro ne correspond à ce que vous avez selectionné - \n");
+			this.selectionMenu();
+			break;
 		}
 	}
 	
@@ -112,10 +114,69 @@ public class Jardin {
 		System.out.println("Y : ");
 		
 		int y = this.scanner();
-	
 		
-		this.emplacement[x][y] = new Emplacement(new Betterave());		
+		if((x > this.largeur - 1) || (y > this.longueur - 1)) {
+			System.out.println("\n- Les coordonnées entrées ne correspondes pas -\n");
+			this.semer();
+		}
 		
+		System.out.println("Que souhaitez vous plantez : \n\n"
+				+ "1. Tomate \n"
+				+ "2. Carotte \n"
+				+ "3. Ail \n"
+				+ "4. Betterave \n");
+		
+		int res = this.scanner();
+		
+		switch(res) {
+		case 1:
+			this.emplacement[x][y] = new Emplacement(new Tomate());
+			if(this.panier.get("Tomate") <= 0) {
+				System.out.println("Impossible de planter ce végétal, vous n'avez plus de graine(s)");
+				this.selectionMenu();
+				break;
+			} else {
+				this.ajouterPanier("Tomate", (this.panier.get("Tomate") - 1));
+				break;
+			}
+			
+		case 2:
+			this.emplacement[x][y] = new Emplacement(new Carotte());
+			if(this.panier.get("Carotte") <= 0) {
+				System.out.println("Impossible de planter ce végétal, vous n'avez plus de graine(s)");
+				this.selectionMenu();
+				break;
+			} else {
+				this.ajouterPanier("Carotte", (this.panier.get("Carotte") - 1));
+				break;
+			}
+			
+		case 3:
+			this.emplacement[x][y] = new Emplacement(new Ail());
+			if(this.panier.get("Ail") <= 0) {
+				System.out.println("Impossible de planter ce végétal, vous n'avez plus de graine(s)");
+				this.selectionMenu();
+				break;
+			} else {
+				this.ajouterPanier("Ail", (this.panier.get("Ail") - 1));
+				break;
+			}
+			
+		case 4:
+			this.emplacement[x][y] = new Emplacement(new Betterave());
+			if(this.panier.get("Betterave") <= 0) {
+				System.out.println("Impossible de planter ce végétal, vous n'avez plus de graine(s)");
+				this.selectionMenu();
+				break;
+			} else {
+				this.ajouterPanier("Betterave", (this.panier.get("Betterave") - 1));
+				break;
+			}
+		default:
+			System.out.println("\n- Aucun numéro ne correspond à ce que vous avez selectionné - \n");
+			this.semer();
+			break;
+		}
 		this.selectionMenu();
 	}
 	
@@ -144,7 +205,7 @@ public class Jardin {
 	public void saisonSuivante() {
 		for(int i = 0; i < this.largeur; i++) {
 			for(int j = 0; j < this.longueur; j++) {
-				if(emplacement[i][j] != null) {
+				if(emplacement[i][j] != null && (this.emplacement[i][j].getVegetal().etatPlante() < 5)) {
 					this.emplacement[i][j].getVegetal().grandir();
 				}
 			}
