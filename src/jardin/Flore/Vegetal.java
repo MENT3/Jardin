@@ -2,6 +2,8 @@ package jardin.Flore;
 
 public class Vegetal {
 	
+	protected static String nom;
+
 	protected String dessin[] = new String[6];
 
 	protected Etat etat;
@@ -27,4 +29,5 @@ public class Vegetal {
 	public int etatPlante() {
 		return this.etat.ordinal();
 	}
+
 }

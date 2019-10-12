@@ -16,7 +16,7 @@ public class Jardin {
 		this.longueur = longueur;
 		this.largeur = largeur;
 		this.panier = new HashMap<String, Integer>();
-		emplacement = new Emplacement[longueur][largeur];
+		this.emplacement = new Emplacement[longueur][largeur];
 	}
 	
 	public void ajouterPanier(String nomVegetal, int quantite) {
@@ -114,7 +114,7 @@ public class Jardin {
 		int y = this.scanner();
 	
 		
-		this.emplacement[x][y] = new Emplacement(new Ail());		
+		this.emplacement[x][y] = new Emplacement(new Betterave());		
 		
 		this.selectionMenu();
 	}
@@ -123,6 +123,17 @@ public class Jardin {
 		for(int i = 0; i < this.largeur; i++) {
 			for(int j = 0; j < this.longueur; j++) {
 				if((emplacement[i][j] != null) && (emplacement[i][j].getVegetal().etatPlante() == 4)) {
+					if(this.emplacement[i][j].getVegetal() instanceof IRacePure) {
+						IRacePure v = (IRacePure) this.emplacement[i][j].getVegetal();
+						v.seReproduire(this.panier);
+					} else if(this.emplacement[i][j].getVegetal() instanceof IOgm) {
+						IOgm v = (IOgm) this.emplacement[i][j].getVegetal();
+						if(this.emplacement[ v.seDupliquer(this.largeur, this.longueur).getKey() ][ v.seDupliquer(this.largeur, this.longueur).getValue() ] == null ) {
+							System.out.println("Key : " + v.seDupliquer(this.largeur, this.longueur).getKey());
+							System.out.println("Value : " + v.seDupliquer(this.largeur, this.longueur).getValue());
+							this.emplacement[v.seDupliquer(this.largeur, this.longueur).getKey()][v.seDupliquer(this.largeur, this.longueur).getValue()] = new Emplacement(new Betterave());
+						}
+					}
 					this.emplacement[i][j] = null;
 				}
 			}
