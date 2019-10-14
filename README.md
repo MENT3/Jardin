@@ -1,5 +1,4 @@
-# Jardin 
-## [School Project]
+# Jardin [School Project]
 
 Jardin interactif développé en JAVA dans le cadres d'un cours de POO.
 
